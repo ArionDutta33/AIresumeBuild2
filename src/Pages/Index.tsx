@@ -20,9 +20,11 @@ import {
   Award,
 } from "lucide-react";
 import ResumeBuilder from "@/components/ResumeBuilder";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const Index = () => {
   const [showBuilder, setShowBuilder] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   if (showBuilder) {
     return <ResumeBuilder onBack={() => setShowBuilder(false)} />;
@@ -42,7 +44,7 @@ const Index = () => {
             </h1>
           </div>
           <Button
-            onClick={() => setShowBuilder(true)}
+            onClick={() => setShowDialog(true)}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
           >
             <Edit3 className="w-4 h-4 mr-2" />
@@ -77,7 +79,7 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button
               size="lg"
-              onClick={() => setShowBuilder(true)}
+              onClick={() => setShowDialog(true)}
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-6 h-auto"
             >
               Get Started
@@ -96,48 +98,43 @@ const Index = () => {
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-20">
-          <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-white" />
-              </div>
-              <CardTitle className="text-2xl mb-2">AI-Powered</CardTitle>
-              <CardDescription className="text-base">
-                Let our AI generate compelling summaries and optimize your
-                content for maximum impact.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <CardTitle className="text-2xl mb-2">
-                Professional Templates
-              </CardTitle>
-              <CardDescription className="text-base">
-                Choose from carefully crafted templates designed by
-                professionals for different industries.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
-            <CardHeader>
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-white" />
-              </div>
-              <CardTitle className="text-2xl mb-2">
-                Land Your Dream Job
-              </CardTitle>
-              <CardDescription className="text-base">
-                Stand out from the competition with resumes that get noticed by
-                hiring managers.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          {[
+            {
+              icon: <Zap className="w-8 h-8 text-white" />,
+              title: "AI-Powered",
+              desc: "Let our AI generate compelling summaries and optimize your content for maximum impact.",
+              color: "from-blue-500 to-blue-600",
+            },
+            {
+              icon: <Target className="w-8 h-8 text-white" />,
+              title: "Professional Templates",
+              desc: "Choose from carefully crafted templates designed by professionals for different industries.",
+              color: "from-purple-500 to-purple-600",
+            },
+            {
+              icon: <Award className="w-8 h-8 text-white" />,
+              title: "Land Your Dream Job",
+              desc: "Stand out from the competition with resumes that get noticed by hiring managers.",
+              color: "from-green-500 to-green-600",
+            },
+          ].map((item, idx) => (
+            <Card
+              key={idx}
+              className="text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md"
+            >
+              <CardHeader>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${item.color} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
+                  {item.icon}
+                </div>
+                <CardTitle className="text-2xl mb-2">{item.title}</CardTitle>
+                <CardDescription className="text-base">
+                  {item.desc}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
       </section>
 
@@ -164,7 +161,7 @@ const Index = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <Button
-                  onClick={() => setShowBuilder(true)}
+                  onClick={() => setShowDialog(true)}
                   className="w-full justify-start bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                 >
                   <FileText className="w-4 h-4 mr-2" />
@@ -177,7 +174,72 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Resume Templates */}
+            {/* Modal Dialog */}
+            <Dialog open={showDialog} onOpenChange={setShowDialog}>
+              <DialogContent className="max-w-2xl sm:max-w-3xl p-0 border-0 shadow-lg">
+                <Card className="w-full">
+                  <CardHeader>
+                    <CardTitle className="text-2xl">
+                      Start Building Your Resume
+                    </CardTitle>
+                    <CardDescription>
+                      Fill out your details to begin
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        placeholder="john@example.com"
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">
+                        Summary
+                      </label>
+                      <textarea
+                        placeholder="A brief professional summary..."
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                        rows={4}
+                      ></textarea>
+                    </div>
+                    <div className="flex justify-between pt-4">
+                      <Button
+                        onClick={() => setShowDialog(false)}
+                        variant="outline"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        className="bg-gradient-to-r from-blue-600 to-purple-600"
+                        onClick={() => {
+                          setShowDialog(false);
+                          setShowBuilder(true);
+                        }}
+                      >
+                        Save & Continue
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </DialogContent>
+            </Dialog>
+
+            {/* Templates */}
             <Card className="hover:shadow-lg transition-all duration-300 border-0 shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
@@ -203,7 +265,7 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Tips & Resources */}
+            {/* Tips */}
             <Card className="hover:shadow-lg transition-all duration-300 border-0 shadow-md">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
