@@ -211,7 +211,6 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ onBack }) => {
 
   const generateAISummary = async () => {
     try {
-      // Get relevant information from the resume data to send to AI
       const userInfo = {
         name: resumeData.personalInfo.name,
         experience: resumeData.experience.filter(
@@ -223,7 +222,6 @@ const ResumeBuilder: React.FC<ResumeBuilderProps> = ({ onBack }) => {
         skills: resumeData.skills.filter((skill) => skill.trim()),
       };
 
-      // Create a description based on user's resume data
       const describe = `
         Professional with experience in: ${userInfo.experience
           .map((exp) => `${exp.position} at ${exp.company}`)
