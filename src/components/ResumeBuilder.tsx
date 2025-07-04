@@ -137,7 +137,7 @@ const ResumePreview = ({
       {data.experience.some((exp) => exp.company || exp.position) && (
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Work Experience</h2>
-          {data.experience.map((exp, index) => (
+          {data.experience.map((exp) => (
             <div key={exp.id} className="mb-4">
               <div className="flex justify-between items-start mb-1">
                 <h3 className={styles.itemTitle}>
@@ -158,7 +158,7 @@ const ResumePreview = ({
       {data.education.some((edu) => edu.school || edu.degree) && (
         <div className={styles.section}>
           <h2 className={styles.sectionTitle}>Education</h2>
-          {data.education.map((edu, index) => (
+          {data.education.map((edu) => (
             <div key={edu.id} className="mb-4">
               <div className="flex justify-between items-start mb-1">
                 <h3 className={styles.itemTitle}>{edu.degree || "Degree"}</h3>
